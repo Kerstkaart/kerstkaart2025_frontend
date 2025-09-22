@@ -13,6 +13,23 @@ type GameState = {
   solved: boolean;
 };
 
+const welcomeLines = [
+  "Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen.",
+  "Maar dit jaar is er iets mis...",
+  "",
+  "De drie dorpsbewoners die het feest zouden organiseren zijn afgeleid, verward en... vastgeplakt aan hun telefoons.",
+  "Het is aan jou om hen te helpen, de magie van kerst terug te brengen, en Tellytown weer te laten stralen.",
+  "",
+  "🌟 Kies je pad, praat met de inwoners, verzamel voorwerpen en los puzzels op.",
+  "🎁 Kun jij ervoor zorgen dat iedereen zijn telefoon weglegt en samen kerst viert?",
+  "",
+  "Typ je eerste actie hieronder om het avontuur te beginnen. Bijvoorbeeld:",
+  '👉 "Ik loop naar het dorpsplein"',
+  '👉 "Ik praat met Robert over de lichtjes"',
+  "",
+  "Veel plezier — en vergeet niet: in Tellytown begint kerst met jou!"
+];
+
 export default function Home() {
   const [input, setInput] = useState('');
   const [log, setLog] = useState<string[]>([]);
@@ -40,6 +57,20 @@ export default function Home() {
     localStorage.setItem('gameState', JSON.stringify(gameState));
   }, [gameState]);
 
+  // attempt to fade logs away
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < welcomeLines.length) {
+        setLog((prev) => [...prev, welcomeLines[i]]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 500); // 500ms tussen regels
+    return () => clearInterval(interval);
+  }, []);
+
   const sendMessage = async () => {
     const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
       method: 'POST',
@@ -56,17 +87,6 @@ export default function Home() {
   return (
     <main style={{ padding: '2rem', fontFamily: 'monospace' }}>
       <h1>Kerst Text Adventure 🎄</h1>
-      <div>Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen. Maar dit jaar is er iets mis...
-      De drie dorpsbewoners die het feest zouden organiseren zijn afgeleid, verward en... vastgeplakt aan hun telefoons. Het is aan jou om hen te helpen, de magie van kerst terug te brengen, en Tellytown weer te laten stralen.
-
-      🌟 Kies je pad, praat met de inwoners, verzamel voorwerpen en los puzzels op.  
-      🎁 Kun jij ervoor zorgen dat iedereen zijn telefoon weglegt en samen kerst viert?
-
-      Typ je eerste actie hieronder om het avontuur te beginnen. Bijvoorbeeld:  
-      **"Ik loop naar het dorpsplein"** of **"Ik praat met Robert over de lichtjes"**
-
-      Veel plezier — en vergeet niet: in Tellytown begint kerst met jou!
-      </div>
       <div style={{ whiteSpace: 'pre-wrap', marginBottom: '1rem' }}>
         {log.map((line, i) => (
           <div key={i}>{line}</div>
