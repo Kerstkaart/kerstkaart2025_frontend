@@ -5,7 +5,11 @@ import { useState, useEffect } from 'react';
 type GameState = {
   location: string;
   inventory: string[];
-  puzzle: string;
+  npc: {
+    R: false,
+    L: false,
+    B: false
+  }
   solved: boolean;
 };
 
@@ -15,7 +19,11 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState>({
     location: 'besneeuwde hut',
     inventory: [],
-    puzzle: 'kerstwoord',
+    npc: {
+      R: false,
+      L: false,
+      B: false
+    },
     solved: false
   });
 
