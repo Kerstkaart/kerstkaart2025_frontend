@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 
 type GameState = {
@@ -31,7 +33,7 @@ export default function Home() {
   }, [gameState]);
 
   const sendMessage = async () => {
-    const res = await fetch('/api/ai-agent', {
+    const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userInput: input, gameState })
