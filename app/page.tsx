@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 
 type NpcStatus = {
-  helped: boolean,
   taskComplete: boolean,
   state: string
 }
@@ -44,17 +43,14 @@ export default function Home() {
     inventory: [],
     npcStatus: {
       Robert: {
-        helped: false,
         taskComplete: false,
         state: "zit op telefoon te kijken"
       },
       Linda: {
-        helped: false,
         taskComplete: false,
         state: "zit muziek te luisteren via headset"
       },
       Bram: {
-        helped: false,
         taskComplete: false,
         state: "zit op telefoon te kijken"
       }
