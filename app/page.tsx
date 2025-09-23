@@ -36,6 +36,7 @@ const welcomeLines = [
 ];
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
   const [log, setLog] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>({
@@ -88,25 +89,34 @@ export default function Home() {
   }, []);
 
   const sendMessage = async () => {
-    const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userInput: input, gameState })
-    });
+    setLoading(true);
+    try {
+      const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput: input, gameState })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.reply.includes("**GAME_STATE**")) {
-      const userReply = data.reply.split("**GAME_STATE**")[0]
-      const newGameState = data.reply.split("**GAME_STATE**")[1]
-      console.log('received game state: \n', JSON.parse(newGameState))
-      localStorage.setItem('gameState', newGameState);
-      data.reply = userReply
+      if (data.reply.includes("**GAME_STATE**")) {
+        const userReply = data.reply.split("**GAME_STATE**")[0]
+        const newGameState = data.reply.split("**GAME_STATE**")[1]
+        console.log('received game state: \n', JSON.parse(newGameState))
+        localStorage.setItem('gameState', newGameState);
+        data.reply = userReply
+      }
+      console.log('received reply: ', data.reply)
+
+      setLog([...log, input, data.reply]);
+      setInput('');
+    } catch (error) {
+      console.error('Fout bij ophalen AI-antwoord:', error);
+      setLog((prev) => [...prev, '⚠️ Er ging iets mis. Probeer het opnieuw.']);
+    } finally {
+      setLoading(false);
     }
-    console.log('received reply: ', data.reply)
-
-    setLog([...log, input, data.reply]);
-    setInput('');
+    
     // Optioneel: parse status_update uit data.reply en update gameState
   };
 
@@ -120,6 +130,11 @@ export default function Home() {
           </div>
         ))}
       </div>
+      {loading && (
+        <div style={{ marginBottom: '1rem' }}>
+          <div className="spinner" />
+        </div>
+      )}
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
