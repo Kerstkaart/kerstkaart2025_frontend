@@ -99,6 +99,15 @@ export default function Home() {
       if (data.reply.includes("**GAME_STATE**")) {
         const userReply = data.reply.split("**GAME_STATE**")[0]
         const newGameState = data.reply.split("**GAME_STATE**")[1]
+        if (gameState.npcStatus.Robert.taskComplete) {
+          newGameState.npcStatus.Robert.TaskComplete = true
+        }
+        if (gameState.npcStatus.Linda.taskComplete) {
+          newGameState.npcStatus.Linda.TaskComplete = true
+        }
+        if (gameState.npcStatus.Bram.taskComplete) {
+          newGameState.npcStatus.Bram.TaskComplete = true
+        }
         console.log('received game state: \n', JSON.stringify(JSON.parse(newGameState), null, 2))
         localStorage.setItem('gameState', newGameState);
         setGameState(JSON.parse(newGameState));
