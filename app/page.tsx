@@ -105,6 +105,7 @@ export default function Home() {
         const newGameState = data.reply.split("**GAME_STATE**")[1]
         console.log('received game state: \n', JSON.stringify(JSON.parse(newGameState), null, 2))
         localStorage.setItem('gameState', newGameState);
+        setGameState(JSON.parse(newGameState));
         data.reply = userReply
       }
       console.log('received reply: ', data.reply)
