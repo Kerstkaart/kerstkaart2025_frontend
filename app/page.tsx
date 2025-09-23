@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from 'react';
 
+type NpcStatus = {
+  helped: boolean,
+  taskComplete: boolean,
+  state: string
+}
+
 type GameState = {
   location: string;
   inventory: string[];
-  npcHelped: {
-    Robert: false,
-    Linda: false,
-    Bram: false
+  npcStatus: {
+    Robert: NpcStatus,
+    Linda: NpcStatus,
+    Bram: NpcStatus
   }
-};
+}
 
 const welcomeLines = [
   "Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen.",
@@ -33,12 +39,24 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [log, setLog] = useState<string[]>([]);
   const [gameState, setGameState] = useState<GameState>({
-    location: 'besneeuwde hut',
+    location: 'op de grens van het dorp',
     inventory: [],
-    npcHelped: {
-      Robert: false,
-      Linda: false,
-      Bram: false
+    npcStatus: {
+      Robert: {
+        helped: false,
+        taskComplete: false,
+        state: "zit op telefoon te kijken"
+      },
+      Linda: {
+        helped: false,
+        taskComplete: false,
+        state: "zit muziek te luisteren via headset"
+      },
+      Bram: {
+        helped: false,
+        taskComplete: false,
+        state: "zit op telefoon te kijken"
+      }
     }
   });
 
