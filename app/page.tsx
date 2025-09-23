@@ -98,9 +98,9 @@ export default function Home() {
 
       if (data.reply.includes("**GAME_STATE**")) {
         const userReply = data.reply.split("**GAME_STATE**")[0]
-        const newGameState = data.reply.split("**GAME_STATE**")[1]
+        const newGameState = JSON.parse(data.reply.split("**GAME_STATE**")[1])
       
-        console.log('received game state: \n', JSON.stringify(JSON.parse(newGameState), null, 2))
+        console.log('received game state: \n', JSON.stringify(newGameState, null, 2))
 
         if (gameState.npcStatus?.Robert?.taskComplete === true) {
           newGameState.npcStatus.Robert.TaskComplete = true
@@ -111,9 +111,9 @@ export default function Home() {
         if (gameState.npcStatus?.Bram?.taskComplete === true) {
           newGameState.npcStatus.Bram.TaskComplete = true
         }
-        
-        localStorage.setItem('gameState', newGameState);
-        setGameState(JSON.parse(newGameState));
+
+        localStorage.setItem('gameState', JSON.stringify(newGameState));
+        setGameState(newGameState);
         data.reply = userReply
       }
       console.log('received reply: ', data.reply)
