@@ -6,9 +6,9 @@ type GameState = {
   location: string;
   inventory: string[];
   npc: {
-    R: false,
-    L: false,
-    B: false
+    Robert: false,
+    Linda: false,
+    Bram: false
   }
   solved: boolean;
 };
@@ -17,7 +17,7 @@ const welcomeLines = [
   "Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen.",
   "Maar dit jaar is er iets mis...",
   "",
-  "De drie dorpsbewoners die het feest zouden organiseren zijn afgeleid, verward en... vastgeplakt aan hun telefoons.",
+  "De drie dorpsbewoners (Robert, Linda en Bram) die het feest zouden organiseren zijn afgeleid, verward en... vastgeplakt aan hun telefoons.",
   "Het is aan jou om hen te helpen, de magie van kerst terug te brengen, en Tellytown weer te laten stralen.",
   "",
   "🌟 Kies je pad, praat met de inwoners, verzamel voorwerpen en los puzzels op.",
@@ -37,9 +37,9 @@ export default function Home() {
     location: 'besneeuwde hut',
     inventory: [],
     npc: {
-      R: false,
-      L: false,
-      B: false
+      Robert: false,
+      Linda: false,
+      Bram: false
     },
     solved: false
   });
