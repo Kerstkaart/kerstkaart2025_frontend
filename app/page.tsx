@@ -99,7 +99,7 @@ export default function Home() {
     if (data.reply.includes("**GAME_STATE**")) {
       const userReply = data.reply.split("**GAME_STATE**")[0]
       const newGameState = data.reply.split("**GAME_STATE**")[1]
-      console.log('received game state: \n', JSON.stringify(newGameState, null, 2))
+      console.log('received game state: \n', JSON.parse(newGameState))
       localStorage.setItem('gameState', newGameState);
       data.reply = userReply
     }
