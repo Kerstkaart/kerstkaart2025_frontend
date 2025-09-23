@@ -5,12 +5,11 @@ import { useState, useEffect } from 'react';
 type GameState = {
   location: string;
   inventory: string[];
-  npc: {
+  npcHelped: {
     Robert: false,
     Linda: false,
     Bram: false
   }
-  solved: boolean;
 };
 
 const welcomeLines = [
@@ -36,12 +35,11 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState>({
     location: 'besneeuwde hut',
     inventory: [],
-    npc: {
+    npcHelped: {
       Robert: false,
       Linda: false,
       Bram: false
-    },
-    solved: false
+    }
   });
 
   // Load saved state on mount
