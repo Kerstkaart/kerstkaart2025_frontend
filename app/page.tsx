@@ -90,6 +90,7 @@ export default function Home() {
 
   const sendMessage = async () => {
     setLoading(true);
+    setInput('');
     try {
       const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
         method: 'POST',
@@ -109,7 +110,6 @@ export default function Home() {
       console.log('received reply: ', data.reply)
 
       setLog([...log, input, data.reply]);
-      setInput('');
     } catch (error) {
       console.error('Fout bij ophalen AI-antwoord:', error);
       setLog((prev) => [...prev, '⚠️ Er ging iets mis. Probeer het opnieuw.']);
