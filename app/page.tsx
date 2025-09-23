@@ -67,7 +67,7 @@ export default function Home() {
       } else {
         clearInterval(interval);
       }
-    }, 500); // 500ms tussen regels
+    }, 300); // 500ms tussen regels
     return () => clearInterval(interval);
   }, []);
 
@@ -89,7 +89,9 @@ export default function Home() {
       <h1>Kerst Text Adventure 🎄</h1>
       <div style={{ whiteSpace: 'pre-wrap', marginBottom: '1rem' }}>
         {log.map((line, i) => (
-          <div key={i}>{line}</div>
+          <div key={i} className="fade-line" style={{ animationDelay: `${i * 100}ms` }}>
+            {line}
+          </div>
         ))}
       </div>
       <input
