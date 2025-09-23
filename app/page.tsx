@@ -79,7 +79,12 @@ export default function Home() {
     });
 
     const data = await res.json();
-    setLog([...log, input, data.reply]);
+
+    const userReply = data.reply.split("**GAME_STATE**")[0]
+    const newGameState = data.reply.split("**GAME_STATE**")[1]
+    localStorage.setItem('gameState', newGameState);
+
+    setLog([...log, input, userReply]);
     setInput('');
     // Optioneel: parse status_update uit data.reply en update gameState
   };
