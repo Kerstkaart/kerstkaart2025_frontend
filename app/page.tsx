@@ -31,8 +31,20 @@ Robert heeft alles al aangesloten, maar toch schijnt de kerstboom niet in volle 
 Je kijkt beter naar de stroomkabel en ziet dat er halverwege iets vreemds is met de draad, je vermoedt dat er teveel weerstand is.
 
 Robert heeft een boek naast hem liggen.`,
-  2: "🎁 Hoofdstuk 2: Linda probeert de cadeaus te organiseren, maar raakt steeds afgeleid. Kun jij haar helpen?",
-  3: "🎶 Hoofdstuk 3: Bram zou de muziek regelen, maar hij is verdwaald in zijn afspeellijsten. Tijd voor een kerstklassieker!"
+
+  2: `🎶 Hoofdstuk 2: De muziek
+
+  Je loopt naar Linda. Een blonde dame die tegen een luik op de grond staat te stampen.
+
+  Ze vertelt dat er vervelende spinnen zijn die haar muziekinstallatie hebben gestolen, en deze nu bewaken in de kelder onder het luik.
+
+  Het luik is niet op slot, maar Linda houdt niet van spinnen en hun smerige gewoontes.
+
+  Je ziet dat spinnen continu heen en weer lopen uit de kelder, het huis in naar wat lijkt naar de badkamer.
+
+  Als je de spinnen volgt naar de badkamer zie je dat de spinnen een webmaker 2025 hebben geinstalleerd onder de wastafel. De spinnen brengen de haren uit het doucheputje naar de webmaker, waar vervolgens spinnenwebben van gemaakt worden. De spinnen brengen vervolgens deze webben naar de kelder om de muziekinstallatie nog vaster te zetten.
+  `,
+  3: "🎶 Hoofdstuk 3: ..."
 };
 
 export default function Home() {
@@ -70,6 +82,10 @@ export default function Home() {
       const data = await res.json();
       const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
 
+      if (data.reply.contains('GESLAAGD')) {
+        setChapter(chapter + 1)
+      }
+
       setChapterLogs((prev) => ({
         ...prev,
         [chapter]: newLog
@@ -102,7 +118,6 @@ export default function Home() {
         borderRight: '1px solid #333',
         overflowY: 'auto'
       }}>
-        <h2 style={{ color: '#ffcc00' }}>📘 Hoofdstuk {chapter}</h2>
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {chapterIntro[chapter]}
         </p>
