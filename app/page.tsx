@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import Confetti from 'react-confetti';
 
 const welcomeLines = [
   "Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen.",
@@ -112,6 +113,7 @@ export default function Home() {
       backgroundColor: '#121212',
       color: '#f0f0f0'
     }}>
+      {chapterCompleted && <Confetti />}
       {/* Linkerkant: vaste chapter info */}
       <aside style={{
         width: '35%',
