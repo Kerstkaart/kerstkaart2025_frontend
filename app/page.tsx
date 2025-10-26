@@ -115,14 +115,21 @@ export default function Home() {
     }}>
       {chapterCompleted && <Confetti />}
       {/* Linkerkant: vaste chapter info */}
-      <aside style={{
+      <aside 
+      style={{
         width: '35%',
         padding: '2rem',
-        backgroundColor: '#1e1e1e',
+        backgroundImage: 'url("/Chapter1.png")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        opacity: 0.2, // transparantie
         borderRight: '1px solid #333',
         overflowY: 'auto'
       }}>
-        <h1>Hoofdstuk ${chapter}</h1>
+        <h2 style={{ color: 'white', marginBottom: '1rem' }}>
+          Hoofdstuk {chapter}
+        </h2>
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {chapterIntro[chapter]}
         </p>
