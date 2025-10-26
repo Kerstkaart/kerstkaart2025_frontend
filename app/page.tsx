@@ -20,13 +20,17 @@ const welcomeLines = [
 ];
 
 const chapterIntro: Record<number, string> = {
-  1: `🎄 
-  Hoofdstuk 1: De kerstlichtjes\n
-  Je loopt naar Robert, een jongeman met donker krullig haar, die op een boomstam naar zijn smartphone zit te staren.\n
-  Naast hem ligt een stroomdraad die van een centrale stekkerdoos helemaal door loopt naar de lichtjes van de kerstboom.\n
-  Robert heeft alles al aangesloten, maar toch schijnt de kerstboom niet in volle glorie.\n
-  Je kijkt beter naar de stroomkabel en ziet dat er halverwege iets vreemds is met de draad, je vermoed dat er teveel weerstand is.\n
-  Robert heeft een boek naast hem liggen.`,
+  1: `🎄 Hoofdstuk 1: De kerstlichtjes
+
+Je loopt naar Robert, een jongeman met donker krullig haar, die op een boomstam naar zijn smartphone zit te staren.
+
+Naast hem ligt een stroomdraad die van een centrale stekkerdoos helemaal door loopt naar de lichtjes van de kerstboom.
+
+Robert heeft alles al aangesloten, maar toch schijnt de kerstboom niet in volle glorie.
+
+Je kijkt beter naar de stroomkabel en ziet dat er halverwege iets vreemds is met de draad, je vermoedt dat er teveel weerstand is.
+
+Robert heeft een boek naast hem liggen.`,
   2: "🎁 Hoofdstuk 2: Linda probeert de cadeaus te organiseren, maar raakt steeds afgeleid. Kun jij haar helpen?",
   3: "🎶 Hoofdstuk 3: Bram zou de muziek regelen, maar hij is verdwaald in zijn afspeellijsten. Tijd voor een kerstklassieker!"
 };
@@ -99,7 +103,9 @@ export default function Home() {
         overflowY: 'auto'
       }}>
         <h2 style={{ color: '#ffcc00' }}>📘 Hoofdstuk {chapter}</h2>
-        <p>{chapterIntro[chapter]}</p>
+        <p style={{ whiteSpace: 'pre-wrap' }}>
+          {chapterIntro[chapter]}
+        </p>
       </aside>
 
       {/* Rechterkant: chat en input */}
