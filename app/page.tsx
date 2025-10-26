@@ -84,7 +84,7 @@ export default function Home() {
       const data = await res.json();
       const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
 
-      const isSuccess = data.reply?.startsWith('GESLAAGD');
+      const isSuccess = data.reply?.includes('GESLAAGD');
       if (isSuccess) {
         setChapterCompleted(true);
       }
