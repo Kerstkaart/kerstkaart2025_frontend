@@ -21,7 +21,7 @@ const welcomeLines = [
 ];
 
 const chapterIntro: Record<number, string> = {
-  1: `🎄 Hoofdstuk 1: De kerstlichtjes
+  1: `🎄 De kerstlichtjes
 
 Je loopt naar Robert, een jongeman met donker krullig haar, die op een boomstam naar zijn smartphone zit te staren.
 
@@ -33,7 +33,7 @@ Je kijkt beter naar de stroomkabel en ziet dat er halverwege iets vreemds is met
 
 Robert heeft een boek naast hem liggen.`,
 
-  2: `🎶 Hoofdstuk 2: De muziek
+  2: `🎶 De muziek
 
   Je loopt naar Linda. Een blonde dame die tegen een luik op de grond staat te stampen.
 
@@ -141,9 +141,9 @@ export default function Home() {
           overflowY: 'auto'
         }}
       >
-        <h2 style={{ color: 'white', marginBottom: '1rem' }}>
+        <h1 style={{ color: 'white', marginBottom: '1rem' }}>
           Hoofdstuk {chapter}
-        </h2>
+        </h1>
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {chapterIntro[chapter]}
         </p>
