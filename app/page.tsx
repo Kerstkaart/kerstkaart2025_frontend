@@ -2,21 +2,6 @@
 
 import { useState, useEffect } from 'react';
 
-type NpcStatus = {
-  taskComplete: boolean,
-  state: string
-}
-
-type GameState = {
-  location: string;
-  inventory: string[];
-  npcStatus: {
-    Robert: NpcStatus,
-    Linda: NpcStatus,
-    Bram: NpcStatus
-  }
-}
-
 const welcomeLines = [
   "Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen.",
   "Maar dit jaar is er iets mis...",
@@ -37,103 +22,65 @@ const welcomeLines = [
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
-  const [log, setLog] = useState<string[]>([]);
-  const [gameState, setGameState] = useState<GameState>({
-    location: 'op de grens van het dorp',
-    inventory: [],
-    npcStatus: {
-      Robert: {
-        taskComplete: false,
-        state: "zit op telefoon te kijken"
-      },
-      Linda: {
-        taskComplete: false,
-        state: "zit muziek te luisteren via headset"
-      },
-      Bram: {
-        taskComplete: false,
-        state: "zit op telefoon te kijken"
-      }
-    }
-  });
+  const [chapterLogs, setChapterLogs] = useState<Record<number, string[]>>({});
+  const [chapter, setChapter] = useState<number>(1);
 
   // Load saved state on mount
   useEffect(() => {
-    const savedState = localStorage.getItem('gameState');
-    if (savedState) {
-      setGameState(JSON.parse(savedState));
+    const chapter = localStorage.getItem('chapter');
+    const savedLogs = localStorage.getItem('chapterLogs');
+    if (chapter) {
+      setChapter(JSON.parse(chapter));
+    }
+    if (savedLogs) {
+      setChapterLogs(JSON.parse(savedLogs));
     }
   }, []);
+
+  const currentLog = chapterLogs[chapter] ?? [];
 
   // Save state on change
   useEffect(() => {
-    localStorage.setItem('gameState', JSON.stringify(gameState));
-  }, [gameState]);
-
-  // attempt to fade logs away
-  useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < welcomeLines.length) {
-        setLog((prev) => [...prev, welcomeLines[i]]);
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 300); // 500ms tussen regels
-    return () => clearInterval(interval);
-  }, []);
+    localStorage.setItem('chapter', JSON.stringify(chapter));
+    localStorage.setItem('chapterLogs', JSON.stringify(chapterLogs));
+  }, [chapter, chapterLogs]);
 
   const sendMessage = async () => {
-    setLoading(true);
-    setInput('');
-    try {
-      const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userInput: input, gameState })
-      });
+  if (!input.trim()) return;
+  setLoading(true);
+  setInput('');
 
-      const data = await res.json();
+  try {
+    const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userInput: input, chapter })
+    });
 
-      if (data.reply.includes("**GAME_STATE**")) {
-        const userReply = data.reply.split("**GAME_STATE**")[0]
-        const newGameState = JSON.parse(data.reply.split("**GAME_STATE**")[1])
-      
-        console.log('received game state: \n', JSON.stringify(newGameState, null, 2))
+    const data = await res.json();
+    const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
 
-        if (gameState.npcStatus?.Robert?.taskComplete === true) {
-          newGameState.npcStatus.Robert.TaskComplete = true
-        }
-        if (gameState.npcStatus?.Linda?.taskComplete === true) {
-          newGameState.npcStatus.Linda.TaskComplete = true
-        }
-        if (gameState.npcStatus?.Bram?.taskComplete === true) {
-          newGameState.npcStatus.Bram.TaskComplete = true
-        }
-
-        localStorage.setItem('gameState', JSON.stringify(newGameState));
-        setGameState(newGameState);
-        data.reply = userReply
-      }
-      console.log('received reply: ', data.reply)
-
-      setLog([...log, input, data.reply]);
-    } catch (error) {
-      console.error('Fout bij ophalen AI-antwoord:', error);
-      setLog((prev) => [...prev, '⚠️ Er ging iets mis. Probeer het opnieuw.']);
-    } finally {
-      setLoading(false);
-    }
-    
-    // Optioneel: parse status_update uit data.reply en update gameState
-  };
+    setChapterLogs((prev) => ({
+      ...prev,
+      [chapter]: newLog
+    }));
+  } catch (error) {
+    console.error('Fout bij ophalen AI-antwoord:', error);
+    const errorLog = [...(chapterLogs[chapter] ?? []), '⚠️ Er ging iets mis. Probeer het opnieuw.'];
+    setChapterLogs((prev) => ({
+      ...prev,
+      [chapter]: errorLog
+    }));
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <main style={{ padding: '2rem', fontFamily: 'monospace' }}>
       <h1>Kerst Text Adventure 🎄</h1>
       <div style={{ whiteSpace: 'pre-wrap', marginBottom: '1rem' }}>
-        {log.map((line, i) => (
+        {currentLog.map((line, i) => (
           <div key={i} className="fade-line" style={{ animationDelay: `${i * 100}ms` }}>
             {line}
           </div>
