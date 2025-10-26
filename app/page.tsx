@@ -48,6 +48,12 @@ Robert heeft een boek naast hem liggen.`,
   3: "🎶 Hoofdstuk 3: ..."
 };
 
+const chapterBackgrounds: Record<number, string> = {
+  1: '/Chapter1.png',
+  2: '/Chapter2.png',
+  3: '/Chapter3.png'
+};
+
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
@@ -62,6 +68,10 @@ export default function Home() {
     if (savedChapter) setChapter(JSON.parse(savedChapter));
     if (savedLogs) setChapterLogs(JSON.parse(savedLogs));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('chapter', JSON.stringify(chapter));
+  }, [chapter]);
 
   const currentLog = chapterLogs[chapter] ?? [];
 
@@ -115,7 +125,22 @@ export default function Home() {
     }}>
       {chapterCompleted && <Confetti />}
       {/* Linkerkant: vaste chapter info */}
-      <aside className="chapter-background">
+      <aside
+        className="chapter-background"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.7), rgba(0,0,0,1)), url(${chapterBackgrounds[chapter]})`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top center',
+          backgroundColor: '#1e1e1e',
+          position: 'relative',
+          zIndex: 1,
+          padding: '2rem',
+          width: '35%',
+          borderRight: '1px solid #333',
+          overflowY: 'auto'
+        }}
+      >
         <h2 style={{ color: 'white', marginBottom: '1rem' }}>
           Hoofdstuk {chapter}
         </h2>
