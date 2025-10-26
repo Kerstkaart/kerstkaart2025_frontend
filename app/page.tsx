@@ -83,16 +83,22 @@ export default function Home() {
   };
 
   return (
-    <main style={{ display: 'flex', height: '100vh', fontFamily: 'monospace' }}>
+    <main style={{
+      display: 'flex',
+      height: '100vh',
+      fontFamily: 'monospace',
+      backgroundColor: '#121212',
+      color: '#f0f0f0'
+    }}>
       {/* Linkerkant: vaste chapter info */}
       <aside style={{
         width: '35%',
         padding: '2rem',
-        background: '#f0f0f0',
-        borderRight: '1px solid #ccc',
+        backgroundColor: '#1e1e1e',
+        borderRight: '1px solid #333',
         overflowY: 'auto'
       }}>
-        <h2>📘 Hoofdstuk {chapter}</h2>
+        <h2 style={{ color: '#ffcc00' }}>📘 Hoofdstuk {chapter}</h2>
         <p>{chapterIntro[chapter]}</p>
       </aside>
 
@@ -105,16 +111,27 @@ export default function Home() {
         overflowY: 'auto'
       }}>
         {/* Welkomtekst */}
-        <section style={{ marginBottom: '2rem', background: '#f9f9f9', padding: '1rem', borderRadius: '8px' }}>
+        <section style={{
+          marginBottom: '2rem',
+          backgroundColor: '#1a1a1a',
+          padding: '1rem',
+          borderRadius: '8px',
+          border: '1px solid #333'
+        }}>
           {welcomeLines.map((line, i) => (
             <div key={i}>{line}</div>
           ))}
         </section>
 
         {/* Chatlog */}
-        <div style={{ whiteSpace: 'pre-wrap', flexGrow: 1, marginBottom: '1rem' }}>
+        <div style={{
+          whiteSpace: 'pre-wrap',
+          flexGrow: 1,
+          marginBottom: '1rem',
+          overflowY: 'auto'
+        }}>
           {currentLog.map((line, i) => (
-            <div key={i}>{line}</div>
+            <div key={i} style={{ marginBottom: '0.5rem' }}>{line}</div>
           ))}
         </div>
 
@@ -131,7 +148,14 @@ export default function Home() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           placeholder="Typ je actie..."
-          style={{ width: '100%', padding: '0.5rem' }}
+          style={{
+            width: '100%',
+            padding: '0.75rem',
+            backgroundColor: '#1e1e1e',
+            color: '#f0f0f0',
+            border: '1px solid #444',
+            borderRadius: '4px'
+          }}
         />
       </section>
     </main>
