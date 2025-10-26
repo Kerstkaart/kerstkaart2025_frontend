@@ -190,6 +190,13 @@ export default function Home() {
         )}
 
         {/* Input */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage();
+          }}
+          style={{ width: '100%' }}
+        >
         {chapterCompleted ? (
           <button
             onClick={() => {
@@ -212,7 +219,6 @@ export default function Home() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
             placeholder="Typ je actie..."
             style={{
               width: '100%',
@@ -224,6 +230,7 @@ export default function Home() {
             }}
           />
         )}
+        </form>
       </section>
     </main>
   );
