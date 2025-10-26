@@ -122,6 +122,7 @@ export default function Home() {
         borderRight: '1px solid #333',
         overflowY: 'auto'
       }}>
+        <h1>Hoofdstuk ${chapter}</h1>
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {chapterIntro[chapter]}
         </p>
