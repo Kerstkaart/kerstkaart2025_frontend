@@ -38,7 +38,7 @@ main {
   overflow-y: 'auto';
 }
 
-@media (max-width: 768px) {
+@media screen and (orientation: portrait) {
   main {
     flex-direction: column; /* mobiel: onder elkaar */
   }
