@@ -19,6 +19,12 @@ const welcomeLines = [
   "Veel plezier — en vergeet niet: in Tellytown begint kerst met jou!"
 ];
 
+const chapterIntro: Record<number, string> = {
+  1: "🎄 Hoofdstuk 1: De kerstlichtjes zijn uitgevallen. Robert heeft hulp nodig om de stroom weer aan te sluiten.",
+  2: "🎁 Hoofdstuk 2: Linda probeert de cadeaus te organiseren, maar raakt steeds afgeleid. Kun jij haar helpen?",
+  3: "🎶 Hoofdstuk 3: Bram zou de muziek regelen, maar hij is verdwaald in zijn afspeellijsten. Tijd voor een kerstklassieker!"
+};
+
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
@@ -27,70 +33,80 @@ export default function Home() {
 
   // Load saved state on mount
   useEffect(() => {
-    const chapter = localStorage.getItem('chapter');
+    const savedChapter = localStorage.getItem('chapter');
     const savedLogs = localStorage.getItem('chapterLogs');
-    if (chapter) {
-      setChapter(JSON.parse(chapter));
-    }
-    if (savedLogs) {
-      setChapterLogs(JSON.parse(savedLogs));
-    }
+    if (savedChapter) setChapter(JSON.parse(savedChapter));
+    if (savedLogs) setChapterLogs(JSON.parse(savedLogs));
   }, []);
 
   const currentLog = chapterLogs[chapter] ?? [];
 
-  // Save state on change
-  useEffect(() => {
-    localStorage.setItem('chapter', JSON.stringify(chapter));
-    localStorage.setItem('chapterLogs', JSON.stringify(chapterLogs));
-  }, [chapter, chapterLogs]);
-
   const sendMessage = async () => {
-  if (!input.trim()) return;
-  setLoading(true);
-  setInput('');
+    if (!input.trim()) return;
+    setLoading(true);
+    setInput('');
 
-  try {
-    const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userInput: input, chapter })
-    });
+    try {
+      const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userInput: input,
+          chapter,
+          history: chapterLogs[chapter] ?? []
+        })
+      });
 
-    const data = await res.json();
-    const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
+      const data = await res.json();
+      const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
 
-    setChapterLogs((prev) => ({
-      ...prev,
-      [chapter]: newLog
-    }));
-  } catch (error) {
-    console.error('Fout bij ophalen AI-antwoord:', error);
-    const errorLog = [...(chapterLogs[chapter] ?? []), '⚠️ Er ging iets mis. Probeer het opnieuw.'];
-    setChapterLogs((prev) => ({
-      ...prev,
-      [chapter]: errorLog
-    }));
-  } finally {
-    setLoading(false);
-  }
-};
+      setChapterLogs((prev) => ({
+        ...prev,
+        [chapter]: newLog
+      }));
+    } catch (error) {
+      console.error('Fout bij ophalen AI-antwoord:', error);
+      const errorLog = [...(chapterLogs[chapter] ?? []), '⚠️ Er ging iets mis. Probeer het opnieuw.'];
+      setChapterLogs((prev) => ({
+        ...prev,
+        [chapter]: errorLog
+      }));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main style={{ padding: '2rem', fontFamily: 'monospace' }}>
       <h1>Kerst Text Adventure 🎄</h1>
+
+      {/* Vaste introductie */}
+      <section style={{ marginBottom: '2rem', background: '#f9f9f9', padding: '1rem', borderRadius: '8px' }}>
+        {welcomeLines.map((line, i) => (
+          <div key={i}>{line}</div>
+        ))}
+      </section>
+
+      {/* Hoofdstukintro */}
+      <section style={{ marginBottom: '1rem', fontWeight: 'bold' }}>
+        {chapterIntro[chapter]}
+      </section>
+
+      {/* Chatlog */}
       <div style={{ whiteSpace: 'pre-wrap', marginBottom: '1rem' }}>
         {currentLog.map((line, i) => (
-          <div key={i} className="fade-line" style={{ animationDelay: `${i * 100}ms` }}>
-            {line}
-          </div>
+          <div key={i}>{line}</div>
         ))}
       </div>
+
+      {/* Loading indicator */}
       {loading && (
         <div style={{ marginBottom: '1rem' }}>
           <div className="spinner" />
         </div>
       )}
+
+      {/* Input */}
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
