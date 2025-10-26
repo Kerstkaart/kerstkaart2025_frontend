@@ -136,9 +136,7 @@ export default function Home() {
           position: 'relative',
           zIndex: 1,
           padding: '2rem',
-          width: '35%',
-          borderRight: '1px solid #333',
-          overflowY: 'auto'
+          borderRight: '1px solid #333'
         }}
       >
         <h1 style={{ color: 'white', marginBottom: '1rem' }}>
@@ -150,12 +148,11 @@ export default function Home() {
       </aside>
 
       {/* Rechterkant: chat en input */}
-      <section style={{
-        width: '65%',
+      <section className="chat-area"
+        style={{
         padding: '2rem',
         display: 'flex',
-        flexDirection: 'column',
-        overflowY: 'auto'
+        flexDirection: 'column'
       }}>
         {/* Welkomtekst */}
         <section style={{
