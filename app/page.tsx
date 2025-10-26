@@ -115,18 +115,7 @@ export default function Home() {
     }}>
       {chapterCompleted && <Confetti />}
       {/* Linkerkant: vaste chapter info */}
-      <aside 
-      style={{
-        width: '35%',
-        padding: '2rem',
-        backgroundImage: 'url("/Chapter1.png")',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
-        opacity: 0.2, // transparantie
-        borderRight: '1px solid #333',
-        overflowY: 'auto'
-      }}>
+      <aside className="chapter-background">
         <h2 style={{ color: 'white', marginBottom: '1rem' }}>
           Hoofdstuk {chapter}
         </h2>
