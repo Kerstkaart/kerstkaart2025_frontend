@@ -21,11 +21,11 @@ const welcomeLines = [
 
 const chapterIntro: Record<number, string> = {
   1: `🎄 
-  Hoofdstuk 1: De kerstlichtjes
-  Je loopt naar Robert, een jongeman met donker krullig haar, die op een boomstam naar zijn smartphone zit te staren.
-  Naast hem ligt een stroomdraad die van een centrale stekkerdoos helemaal door loopt naar de lichtjes van de kerstboom.
-  Robert heeft alles al aangesloten, maar toch schijnt de kerstboom niet in volle glorie.
-  Je kijkt beter naar de stroomkabel en ziet dat er halverwege iets vreemds is met de draad, je vermoed dat er teveel weerstand is.
+  Hoofdstuk 1: De kerstlichtjes\n
+  Je loopt naar Robert, een jongeman met donker krullig haar, die op een boomstam naar zijn smartphone zit te staren.\n
+  Naast hem ligt een stroomdraad die van een centrale stekkerdoos helemaal door loopt naar de lichtjes van de kerstboom.\n
+  Robert heeft alles al aangesloten, maar toch schijnt de kerstboom niet in volle glorie.\n
+  Je kijkt beter naar de stroomkabel en ziet dat er halverwege iets vreemds is met de draad, je vermoed dat er teveel weerstand is.\n
   Robert heeft een boek naast hem liggen.`,
   2: "🎁 Hoofdstuk 2: Linda probeert de cadeaus te organiseren, maar raakt steeds afgeleid. Kun jij haar helpen?",
   3: "🎶 Hoofdstuk 3: Bram zou de muziek regelen, maar hij is verdwaald in zijn afspeellijsten. Tijd voor een kerstklassieker!"
@@ -83,43 +83,57 @@ export default function Home() {
   };
 
   return (
-    <main style={{ padding: '2rem', fontFamily: 'monospace' }}>
-      <h1>Kerst Text Adventure 🎄</h1>
+    <main style={{ display: 'flex', height: '100vh', fontFamily: 'monospace' }}>
+      {/* Linkerkant: vaste chapter info */}
+      <aside style={{
+        width: '35%',
+        padding: '2rem',
+        background: '#f0f0f0',
+        borderRight: '1px solid #ccc',
+        overflowY: 'auto'
+      }}>
+        <h2>📘 Hoofdstuk {chapter}</h2>
+        <p>{chapterIntro[chapter]}</p>
+      </aside>
 
-      {/* Vaste introductie */}
-      <section style={{ marginBottom: '2rem', padding: '1rem', borderRadius: '8px' }}>
-        {welcomeLines.map((line, i) => (
-          <div key={i}>{line}</div>
-        ))}
-      </section>
+      {/* Rechterkant: chat en input */}
+      <section style={{
+        width: '65%',
+        padding: '2rem',
+        display: 'flex',
+        flexDirection: 'column',
+        overflowY: 'auto'
+      }}>
+        {/* Welkomtekst */}
+        <section style={{ marginBottom: '2rem', background: '#f9f9f9', padding: '1rem', borderRadius: '8px' }}>
+          {welcomeLines.map((line, i) => (
+            <div key={i}>{line}</div>
+          ))}
+        </section>
 
-      {/* Hoofdstukintro */}
-      <section style={{ marginBottom: '1rem', fontWeight: 'bold' }}>
-        {chapterIntro[chapter]}
-      </section>
-
-      {/* Chatlog */}
-      <div style={{ whiteSpace: 'pre-wrap', marginBottom: '1rem' }}>
-        {currentLog.map((line, i) => (
-          <div key={i}>{line}</div>
-        ))}
-      </div>
-
-      {/* Loading indicator */}
-      {loading && (
-        <div style={{ marginBottom: '1rem' }}>
-          <div className="spinner" />
+        {/* Chatlog */}
+        <div style={{ whiteSpace: 'pre-wrap', flexGrow: 1, marginBottom: '1rem' }}>
+          {currentLog.map((line, i) => (
+            <div key={i}>{line}</div>
+          ))}
         </div>
-      )}
 
-      {/* Input */}
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-        placeholder="Typ je actie..."
-        style={{ width: '100%', padding: '0.5rem' }}
-      />
+        {/* Loading indicator */}
+        {loading && (
+          <div style={{ marginBottom: '1rem' }}>
+            <div className="spinner" />
+          </div>
+        )}
+
+        {/* Input */}
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          placeholder="Typ je actie..."
+          style={{ width: '100%', padding: '0.5rem' }}
+        />
+      </section>
     </main>
   );
 }
