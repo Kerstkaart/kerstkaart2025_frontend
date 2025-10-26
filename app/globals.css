@@ -58,6 +58,14 @@ main {
   section {
     width: 100%;
   }
+
+  body, div, input, button {
+    font-size: 1.1rem; /* verhoogd vanaf standaard 1rem */
+  }
+
+  p, h1, h2, h3 {
+    font-size: 1.2em; /* schaal mee met body */
+  }
 }
 
 body {
