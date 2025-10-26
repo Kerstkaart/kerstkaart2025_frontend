@@ -52,6 +52,7 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [chapterLogs, setChapterLogs] = useState<Record<number, string[]>>({});
   const [chapter, setChapter] = useState<number>(1);
+  const [chapterCompleted, setChapterCompleted] = useState(false);
 
   // Load saved state on mount
   useEffect(() => {
@@ -82,8 +83,9 @@ export default function Home() {
       const data = await res.json();
       const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
 
-      if (data.reply.contains('GESLAAGD')) {
-        setChapter(chapter + 1)
+      const isSuccess = data.reply?.startsWith('GESLAAGD');
+      if (isSuccess) {
+        setChapterCompleted(true);
       }
 
       setChapterLogs((prev) => ({
@@ -164,20 +166,40 @@ export default function Home() {
         )}
 
         {/* Input */}
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Typ je actie..."
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            backgroundColor: '#1e1e1e',
-            color: '#f0f0f0',
-            border: '1px solid #444',
-            borderRadius: '4px'
-          }}
-        />
+        {chapterCompleted ? (
+          <button
+            onClick={() => {
+              setChapter((prev) => prev + 1);
+              setChapterCompleted(false);
+            }}
+            style={{
+              padding: '0.75rem',
+              backgroundColor: '#ffcc00',
+              color: '#121212',
+              border: 'none',
+              borderRadius: '4px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            ✅ Ga door naar hoofdstuk {chapter + 1}
+          </button>
+        ) : (
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+            placeholder="Typ je actie..."
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              backgroundColor: '#1e1e1e',
+              color: '#f0f0f0',
+              border: '1px solid #444',
+              borderRadius: '4px'
+            }}
+          />
+        )}
       </section>
     </main>
   );
