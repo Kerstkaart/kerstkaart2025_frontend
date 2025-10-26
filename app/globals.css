@@ -42,10 +42,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  background-color: black; /* vult de rest op met zwart */
   background-image: url("/Chapter1.png"); /* pad vanuit public folder */
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top center;
   opacity: 0.2; /* transparantie van de afbeelding */
   z-index: 0;
 }
