@@ -144,9 +144,30 @@ export default function Home() {
           borderRight: '1px solid #333'
         }}
       >
-        <h1 style={{ color: 'white', marginBottom: '1rem' }}>
-          Hoofdstuk {chapter}
-        </h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h1 style={{ color: 'white', marginBottom: '1rem' }}>
+            Hoofdstuk {chapter}
+          </h1>
+          <button
+            onClick={() => {
+              localStorage.removeItem('chapter');
+              localStorage.removeItem('chapterLogs');
+              setChapter(1);
+              setChapterLogs({});
+              setChapterCompleted(false);
+            }}
+            style={{
+              padding: '0.5rem 1rem',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            🔄 Reset progress
+          </button>
+        </div>
         <p style={{ whiteSpace: 'pre-wrap' }}>
           {chapterIntro[chapter]}
         </p>
