@@ -45,7 +45,19 @@ Robert heeft een boek naast hem liggen.`,
 
   Als je de spinnen volgt naar de badkamer zie je dat de spinnen een webmaker 2025 hebben geinstalleerd onder de wastafel. De spinnen brengen de haren uit het doucheputje naar de webmaker, waar vervolgens spinnenwebben van gemaakt worden. De spinnen brengen vervolgens deze webben naar de kelder om de muziekinstallatie nog vaster te zetten.
   `,
-  3: "🎶 Hoofdstuk 3: ..."
+  3: `🍮 De crème brûlée-crisis
+  
+  Je loopt naar Bram, een topchef met een witte koksmuts en een indrukwekkende snor. Hij staat in de keuken van het dorpshuis, wanhopig naar een lege ovenschaal te staren.
+
+  Op het aanrecht liggen gebroken suikerlaagjes en lege kommetjes — de overblijfselen van wat ooit een feestelijk dessert moest zijn.
+
+  Bram zucht diep. "Ik probeer al de hele ochtend crème brûlées te maken voor het kerstdiner, maar Lila en Lolly... die katten... ze sluipen steeds binnen en eten alles op voordat ik ze kan serveren."
+
+  Je hoort zacht gespin onder de tafel. Lila en Lolly liggen daar tevreden te dutten, hun buikjes rond van room en suiker.
+
+  Bram kijkt je aan met een sprankje hoop. "Misschien... als we samen leren hoe je ze maakt, kunnen we er genoeg maken voor iedereen — zelfs voor die twee snoepkatten.
+  
+  `
 };
 
 const chapterBackgrounds: Record<number, string> = {
