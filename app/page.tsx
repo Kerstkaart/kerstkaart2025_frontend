@@ -76,7 +76,7 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem('chapter', JSON.stringify(chapter));
     localStorage.setItem('welkomOpen', JSON.stringify(welkomOpen));
-  }, [chapter]);
+  }, [chapter, welkomOpen]);
 
   const currentLog = chapterLogs[chapter] ?? [];
 
