@@ -60,17 +60,22 @@ export default function Home() {
   const [chapterLogs, setChapterLogs] = useState<Record<number, string[]>>({});
   const [chapter, setChapter] = useState<number>(1);
   const [chapterCompleted, setChapterCompleted] = useState(false);
+  const [welkomOpen, setWelkomOpen] = useState(true);
 
   // Load saved state on mount
   useEffect(() => {
     const savedChapter = localStorage.getItem('chapter');
     const savedLogs = localStorage.getItem('chapterLogs');
+    const savedWelkom = localStorage.getItem('welkomOpen');
     if (savedChapter) setChapter(JSON.parse(savedChapter));
     if (savedLogs) setChapterLogs(JSON.parse(savedLogs));
+    if (savedWelkom) setWelkomOpen(JSON.parse(savedWelkom));
   }, []);
 
+  // fields that will be stored in browser context so they will be remembered if you attempt the card again
   useEffect(() => {
     localStorage.setItem('chapter', JSON.stringify(chapter));
+    localStorage.setItem('welkomOpen', JSON.stringify(welkomOpen));
   }, [chapter]);
 
   const currentLog = chapterLogs[chapter] ?? [];
@@ -155,17 +160,33 @@ export default function Home() {
         flexDirection: 'column'
       }}>
         {/* Welkomtekst */}
-        <section style={{
-          marginBottom: '2rem',
-          backgroundColor: '#1a1a1a',
-          padding: '1rem',
-          borderRadius: '8px',
-          border: '1px solid #333'
-        }}>
-          {welcomeLines.map((line, i) => (
-            <div key={i}>{line}</div>
-          ))}
-        </section>
+        <button
+          onClick={() => setWelkomOpen((prev) => !prev)}
+          style={{
+            marginBottom: '1rem',
+            padding: '0.5rem 1rem',
+            backgroundColor: '#333',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          {welkomOpen ? '🔼 Verberg introductie' : '🔽 Toon introductie'}
+        </button>
+        {welkomOpen && (
+          <section style={{
+            marginBottom: '2rem',
+            backgroundColor: '#1a1a1a',
+            padding: '1rem',
+            borderRadius: '8px',
+            border: '1px solid #333'
+          }}>
+            {welcomeLines.map((line, i) => (
+              <div key={i}>{line}</div>
+            ))}
+          </section>
+        )}
 
         {/* Chatlog */}
         <div style={{
