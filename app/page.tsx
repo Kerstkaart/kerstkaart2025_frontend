@@ -94,7 +94,7 @@ export default function Home() {
     if (savedLogs) setChapterLogs(JSON.parse(savedLogs));
     if (savedWelkom) setWelkomOpen(JSON.parse(savedWelkom));
 
-    if (chapter > 2 && !audioRef.current) {
+    if (chapter > 2) {
       startMusic();
     }
   }, []);
