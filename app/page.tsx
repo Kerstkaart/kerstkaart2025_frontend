@@ -94,7 +94,14 @@ export default function Home() {
       let chapter = JSON.parse(savedChapter)
       setChapter(chapter);
       if (chapter > 2) {
-        startMusic();
+        const handleUserInteraction = () => {
+          startMusic();
+          window.removeEventListener('click', handleUserInteraction);
+          window.removeEventListener('keydown', handleUserInteraction);
+        };
+
+        window.addEventListener('click', handleUserInteraction);
+        window.addEventListener('keydown', handleUserInteraction);
       }
     }
     if (savedLogs) setChapterLogs(JSON.parse(savedLogs));
