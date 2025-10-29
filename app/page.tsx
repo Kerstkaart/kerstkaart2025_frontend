@@ -109,22 +109,25 @@ export default function Home() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    setLoading(true);
+    sendMessageWithText(input)
     setInput('');
+  };
 
+  const sendMessageWithText = async (text: string) => {
+    setLoading(true);
     try {
       const res = await fetch('https://kerstkaart2025-backend.vercel.app/api/ai-agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userInput: input,
+          userInput: text,
           chapter,
           history: chapterLogs[chapter] ?? []
         })
       });
 
       const data = await res.json();
-      const newLog = [...(chapterLogs[chapter] ?? []), input, data.reply];
+      const newLog = [...(chapterLogs[chapter] ?? []), text, data.reply];
 
       const isSuccess = data.reply?.includes('GESLAAGD');
       if (isSuccess) {
@@ -149,7 +152,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   const startMusic = () => {
     if (playlistRef.current.length === 0) {
@@ -169,141 +172,142 @@ export default function Home() {
     audioRef.current = audio;
   };
 
-    return (
-      <main style={{
-        display: 'flex',
-        height: '100vh',
-        fontFamily: 'monospace',
-        backgroundColor: '#121212',
-        color: '#f0f0f0'
-      }}>
-        {chapterCompleted && <Confetti />}
-        {/* Linkerkant: vaste chapter info */}
-        <aside
-          className="chapter-background"
+  return (
+    <main style={{
+      display: 'flex',
+      height: '100vh',
+      fontFamily: 'monospace',
+      backgroundColor: '#121212',
+      color: '#f0f0f0'
+    }}>
+      {chapterCompleted && <Confetti />}
+      {/* Linkerkant: vaste chapter info */}
+      <aside
+        className="chapter-background"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.7), rgba(0,0,0,1)), url(${chapterBackgrounds[chapter]})`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top center',
+          backgroundColor: '#1e1e1e',
+          position: 'relative',
+          zIndex: 1,
+          padding: '2rem',
+          borderRight: '1px solid #333'
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h1 style={{ color: 'white', marginBottom: '1rem' }}>
+            Hoofdstuk {chapter}
+          </h1>
+          <button
+            onClick={() => {
+              localStorage.removeItem('chapter');
+              localStorage.removeItem('chapterLogs');
+              setChapter(1);
+              setChapterLogs({});
+              setChapterCompleted(false);
+            }}
+            style={{
+              padding: '0.5rem 1rem',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            🔄 Reset progress
+          </button>
+        </div>
+        <p style={{ whiteSpace: 'pre-wrap' }}>
+          {chapterIntro[chapter]}
+        </p>
+      </aside>
+
+      {/* Rechterkant: chat en input */}
+      <section className="chat-area"
+        style={{
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+        {/* Welkomtekst */}
+        <button
+          onClick={() => setWelkomOpen((prev) => !prev)}
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.7), rgba(0,0,0,1)), url(${chapterBackgrounds[chapter]})`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'top center',
-            backgroundColor: '#1e1e1e',
-            position: 'relative',
-            zIndex: 1,
-            padding: '2rem',
-            borderRight: '1px solid #333'
+            marginBottom: '1rem',
+            padding: '0.5rem 1rem',
+            backgroundColor: '#333',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h1 style={{ color: 'white', marginBottom: '1rem' }}>
-              Hoofdstuk {chapter}
-            </h1>
+          {welkomOpen ? '🔼 Verberg introductie' : '🔽 Toon introductie'}
+        </button>
+        {welkomOpen && (
+          <section style={{
+            marginBottom: '2rem',
+            backgroundColor: '#1a1a1a',
+            padding: '1rem',
+            borderRadius: '8px',
+            border: '1px solid #333'
+          }}>
+            {welcomeLines.map((line, i) => (
+              <div key={i}>{line}</div>
+            ))}
+          </section>
+        )}
+
+        {/* Chatlog */}
+        <div style={{
+          whiteSpace: 'pre-wrap',
+          flexGrow: 1,
+          marginBottom: '1rem',
+          overflowY: 'auto'
+        }}>
+          {currentLog.map((line, i) => (
+            <div key={i} style={{ marginBottom: '0.5rem' }}>{line}</div>
+          ))}
+        </div>
+
+        {/* Loading indicator */}
+        {loading && (
+          <div style={{ marginBottom: '1rem' }}>
+            <div className="spinner" />
+          </div>
+        )}
+
+        {/* Input */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage();
+          }}
+          style={{ width: '100%' }}
+        >
+          {chapterCompleted ? (
             <button
               onClick={() => {
-                localStorage.removeItem('chapter');
-                localStorage.removeItem('chapterLogs');
-                setChapter(1);
-                setChapterLogs({});
+                setChapter((prev) => prev + 1);
                 setChapterCompleted(false);
               }}
               style={{
-                padding: '0.5rem 1rem',
-                color: '#fff',
+                padding: '0.75rem',
+                backgroundColor: '#ffcc00',
+                color: '#121212',
                 border: 'none',
                 borderRadius: '4px',
                 fontWeight: 'bold',
                 cursor: 'pointer'
               }}
             >
-              🔄 Reset progress
+              ✅ Ga door naar hoofdstuk {chapter + 1}
             </button>
-          </div>
-          <p style={{ whiteSpace: 'pre-wrap' }}>
-            {chapterIntro[chapter]}
-          </p>
-        </aside>
-
-        {/* Rechterkant: chat en input */}
-        <section className="chat-area"
-          style={{
-            padding: '2rem',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-          {/* Welkomtekst */}
-          <button
-            onClick={() => setWelkomOpen((prev) => !prev)}
-            style={{
-              marginBottom: '1rem',
-              padding: '0.5rem 1rem',
-              backgroundColor: '#333',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            {welkomOpen ? '🔼 Verberg introductie' : '🔽 Toon introductie'}
-          </button>
-          {welkomOpen && (
-            <section style={{
-              marginBottom: '2rem',
-              backgroundColor: '#1a1a1a',
-              padding: '1rem',
-              borderRadius: '8px',
-              border: '1px solid #333'
-            }}>
-              {welcomeLines.map((line, i) => (
-                <div key={i}>{line}</div>
-              ))}
-            </section>
-          )}
-
-          {/* Chatlog */}
-          <div style={{
-            whiteSpace: 'pre-wrap',
-            flexGrow: 1,
-            marginBottom: '1rem',
-            overflowY: 'auto'
-          }}>
-            {currentLog.map((line, i) => (
-              <div key={i} style={{ marginBottom: '0.5rem' }}>{line}</div>
-            ))}
-          </div>
-
-          {/* Loading indicator */}
-          {loading && (
-            <div style={{ marginBottom: '1rem' }}>
-              <div className="spinner" />
-            </div>
-          )}
-
-          {/* Input */}
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              sendMessage();
-            }}
-            style={{ width: '100%' }}
-          >
-            {chapterCompleted ? (
-              <button
-                onClick={() => {
-                  setChapter((prev) => prev + 1);
-                  setChapterCompleted(false);
-                }}
-                style={{
-                  padding: '0.75rem',
-                  backgroundColor: '#ffcc00',
-                  color: '#121212',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-              >
-                ✅ Ga door naar hoofdstuk {chapter + 1}
-              </button>
-            ) : (
+          ) : (
+            <section>
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -317,9 +321,25 @@ export default function Home() {
                   borderRadius: '4px'
                 }}
               />
-            )}
-          </form>
-        </section>
-      </main>
-    );
-  }
+              <button
+                onClick={() => {
+                  sendMessageWithText("Have I completed the current chapter?")
+                }}
+                style={{
+                  marginTop: '1rem',
+                  padding: '0.75rem',
+                  backgroundColor: '#444',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer'
+                }}
+              >🤔 Check game status</button>
+            </section>
+          )}
+        </form>
+      </section>
+    </main>
+  );
+}
