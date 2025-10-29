@@ -398,7 +398,7 @@ export default function Home() {
         </form>
         {!chapterCompleted && (<button
           onClick={() => {
-            sendMessageWithText("Have I completed the current chapter?")
+            sendMessageWithText("Have I completed the current chapter? Make sure to respond with 'GESLAAGD' if I did complete the chapter")
           }}
           style={{
             marginTop: '1rem',
