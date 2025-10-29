@@ -181,6 +181,50 @@ export default function Home() {
     audioRef.current = audio;
   };
 
+  if (chapter >= 4) {
+    return (
+      <main style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        backgroundColor: '#121212',
+        color: '#f0f0f0',
+        fontFamily: 'monospace',
+        textAlign: 'center'
+      }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🎄 Fijne kerst vanuit Tellytown!</h1>
+        <p style={{ maxWidth: '600px', marginBottom: '2rem' }}>
+          Je hebt alle hoofdstukken voltooid en de magie van kerst teruggebracht. Robert, Linda en Bram vieren feest — en jij bent de held van het dorp.
+        </p>
+        <button
+          onClick={() => {
+            if (audioRef.current) {
+              audioRef.current.pause();
+              audioRef.current = null;
+            }
+            localStorage.clear();
+            setChapter(1);
+            setChapterLogs({});
+            setChapterCompleted(false);
+          }}
+          style={{
+            padding: '0.75rem 1.5rem',
+            backgroundColor: '#ff4444',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🔄 Opnieuw spelen
+        </button>
+      </main>
+    )
+  }
+
   return (
     <main style={{
       display: 'flex',
