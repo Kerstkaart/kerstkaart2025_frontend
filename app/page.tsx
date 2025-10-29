@@ -393,24 +393,25 @@ export default function Home() {
                   borderRadius: '4px'
                 }}
               />
-              <button
-                onClick={() => {
-                  sendMessageWithText("Have I completed the current chapter?")
-                }}
-                style={{
-                  marginTop: '1rem',
-                  padding: '0.75rem',
-                  backgroundColor: '#444',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer'
-                }}
-              >🤔 Check game status</button>
             </section>
           )}
         </form>
+        {!chapterCompleted && (<button
+          onClick={() => {
+            sendMessageWithText("Have I completed the current chapter?")
+          }}
+          style={{
+            marginTop: '1rem',
+            padding: '0.75rem',
+            backgroundColor: '#444',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >🤔 Check game status</button>)
+      }
       </section>
     </main>
   );
