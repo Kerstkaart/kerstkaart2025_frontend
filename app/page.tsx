@@ -90,13 +90,15 @@ export default function Home() {
     const savedChapter = localStorage.getItem('chapter');
     const savedLogs = localStorage.getItem('chapterLogs');
     const savedWelkom = localStorage.getItem('welkomOpen');
-    if (savedChapter) setChapter(JSON.parse(savedChapter));
+    if (savedChapter) {
+      let chapter = JSON.parse(savedChapter)
+      setChapter(chapter);
+      if (chapter > 2) {
+        startMusic();
+      }
+    }
     if (savedLogs) setChapterLogs(JSON.parse(savedLogs));
     if (savedWelkom) setWelkomOpen(JSON.parse(savedWelkom));
-
-    if (chapter > 2) {
-      startMusic();
-    }
   }, []);
 
   // fields that will be stored in browser context so they will be remembered if you attempt the card again
