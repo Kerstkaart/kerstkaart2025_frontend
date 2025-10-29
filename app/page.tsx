@@ -189,6 +189,7 @@ export default function Home() {
       backgroundColor: '#121212',
       color: '#f0f0f0'
     }}>
+      {chapter >= 4 && <div style={{width: '100%', height: '100%'}}>Gefeliciteerd!</div>}
       {chapterCompleted && <Confetti />}
       {/* Linkerkant: vaste chapter info */}
       <aside
@@ -297,7 +298,25 @@ export default function Home() {
           }}
           style={{ width: '100%' }}
         >
-          {chapterCompleted ? (
+          {(chapterCompleted && chapter == 3) ? (
+            <button
+              onClick={() => {
+                setChapter((prev) => prev + 1);
+                setChapterCompleted(false);
+              }}
+              style={{
+                padding: '0.75rem',
+                backgroundColor: '#ffcc00',
+                color: '#121212',
+                border: 'none',
+                borderRadius: '4px',
+                fontWeight: 'bold',
+                cursor: 'pointer'
+              }}
+            >
+              Klaar!! Ga door naar de kerstkaart
+            </button>
+          ) : chapterCompleted ? (
             <button
               onClick={() => {
                 setChapter((prev) => prev + 1);
@@ -315,7 +334,7 @@ export default function Home() {
             >
               ✅ Ga door naar hoofdstuk {chapter + 1}
             </button>
-          ) : (
+          ): (
             <section>
               <input
                 value={input}
