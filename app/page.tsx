@@ -71,7 +71,8 @@ const musicTracks = [
   "/audio/I'm driving home for Lilly.mp3",
   "/audio/lillylilly.mp3",
   "/audio/Snowflakes fall on holly leaves, the gar.mp3",
-  "/audio/Verse 1.mp3"
+  "/audio/Verse 1.mp3",
+  "/audio/River Wonderland.mp3"
 ];
 
 export default function Home() {
@@ -93,7 +94,7 @@ export default function Home() {
     if (savedChapter) {
       let chapter = JSON.parse(savedChapter)
       setChapter(chapter);
-      if (chapter > 2) {
+      if (chapter > 3) {
         const handleUserInteraction = () => {
           startMusic();
           window.removeEventListener('click', handleUserInteraction);
@@ -142,7 +143,7 @@ export default function Home() {
       if (isSuccess) {
         setChapterCompleted(true);
 
-        if (chapter === 2 && !audioRef.current) {
+        if (chapter === 3 && !audioRef.current) {
           startMusic();
         }
       }
