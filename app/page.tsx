@@ -281,7 +281,19 @@ export default function Home() {
     }}>
       {chapter >= 4 && <div style={{width: '100%', height: '100%'}}>Gefeliciteerd!</div>}
       {chapterCompleted && <Confetti />}
-      {chapter >= 2 && <LightEffect />}
+      {chapter >= 2 && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 10,
+          pointerEvents: 'none'
+        }}>
+          <LightEffect />
+        </div>
+      )}
       {/* Linkerkant: vaste chapter info */}
       <aside
         className="chapter-background"
