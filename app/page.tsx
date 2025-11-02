@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Confetti from 'react-confetti';
+import { Fireworks } from '@fireworks-js/react'
+import type { FireworksHandlers } from '@fireworks-js/react'
 
 const welcomeLines = [
   "Welkom in Tellytown — een besneeuwd dorpje waar normaal gesproken het kerstfeest bruist van lichtjes, muziek en lekkernijen.",
@@ -77,6 +79,7 @@ const musicTracks = [
 ];
 
 export default function Home() {
+  const ref = useRef<FireworksHandlers>(null)
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
   const [chapterLogs, setChapterLogs] = useState<Record<number, string[]>>({});
@@ -93,9 +96,9 @@ export default function Home() {
     const savedLogs = localStorage.getItem('chapterLogs');
     const savedWelkom = localStorage.getItem('welkomOpen');
     if (savedChapter) {
-      let chapter = JSON.parse(savedChapter)
+      let chapter = 4
       setChapter(chapter);
-      if (chapter > 3) {
+      if (chapter > 2) {
         const handleUserInteraction = () => {
           startMusic();
           window.removeEventListener('click', handleUserInteraction);
@@ -144,7 +147,7 @@ export default function Home() {
       if (isSuccess) {
         setChapterCompleted(true);
 
-        if (chapter === 3 && !audioRef.current) {
+        if (chapter === 2 && !audioRef.current) {
           startMusic();
         }
       }
@@ -189,40 +192,79 @@ export default function Home() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'start',
         height: '100vh',
+        backgroundImage: `url('KerstKaartBack.png')`,
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'top center',
         backgroundColor: '#121212',
         color: '#f0f0f0',
         fontFamily: 'monospace',
-        textAlign: 'center'
+        fontSize: '1rem',
+        textShadow: '1px 1px 2px rgba(0,0,0,1)',
+        textAlign: 'center',
+        padding: '1rem'
       }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>🎄 Fijne kerst vanuit Tellytown!</h1>
-        <p style={{ maxWidth: '600px', marginBottom: '2rem' }}>
-          Je hebt alle hoofdstukken voltooid en de magie van kerst teruggebracht. Robert, Linda en Bram vieren feest — en jij bent de held van het dorp.
-        </p>
-        <button
-          onClick={() => {
-            if (audioRef.current) {
-              audioRef.current.pause();
-              audioRef.current = null;
-            }
-            localStorage.clear();
-            setChapter(1);
-            setChapterLogs({});
-            setChapterCompleted(false);
-          }}
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#ff4444',
+        <Fireworks
+        ref={ref}
+        options={{ opacity: 0.5 }}
+        style={{
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          position: 'fixed',
+        }}
+      />
+        <div style={{
+          maxWidth: '80%', // of een percentage zoals '80vw'
+          width: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          padding: '1rem',
+          zIndex: 2,
+          borderRadius: '8px'
+        }}>
+          <h1 style={{
+            fontSize: '2rem',
+            marginBottom: '1rem',
             color: '#fff',
-            border: 'none',
-            borderRadius: '4px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
-          🔄 Opnieuw spelen
-        </button>
+            textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+          }}>
+            🎄 Fijne kerst vanuit Tellytown!
+          </h1>
+          <p style={{
+            marginBottom: '2rem',
+            color: '#fff',
+            textShadow: '1px 1px 3px rgba(0,0,0,0.7)'
+          }}>
+            Je hebt alle hoofdstukken voltooid en de magie van kerst teruggebracht. Robert, Linda en Bram vieren feest — en jij bent de held van het dorp.
+          </p>
+          <button
+            onClick={() => {
+              if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+              }
+              localStorage.clear();
+              setChapter(1);
+              setChapterLogs({});
+              setChapterCompleted(false);
+            }}
+            style={{
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#ff4444',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              fontWeight: 'bold',
+              cursor: 'pointer'
+            }}
+          >
+            🔄 Opnieuw spelen
+          </button>
+        </div>
       </main>
     )
   }
@@ -237,6 +279,18 @@ export default function Home() {
     }}>
       {chapter >= 4 && <div style={{width: '100%', height: '100%'}}>Gefeliciteerd!</div>}
       {chapterCompleted && <Confetti />}
+      {chapter >= 2 && <Fireworks
+        ref={ref}
+        options={{ opacity: 0.5 }}
+        style={{
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          position: 'fixed',
+        }}
+      />}
       {/* Linkerkant: vaste chapter info */}
       <aside
         className="chapter-background"
@@ -286,6 +340,7 @@ export default function Home() {
         style={{
           padding: '2rem',
           display: 'flex',
+          zIndex: 2,
           flexDirection: 'column'
         }}>
         {/* Welkomtekst */}
