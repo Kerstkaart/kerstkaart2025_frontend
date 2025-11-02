@@ -74,8 +74,7 @@ const musicTracks = [
   "/audio/lillylilly.mp3",
   "/audio/Snowflakes fall on holly leaves, the gar.mp3",
   "/audio/Verse 1.mp3",
-  "/audio/River Wonderland.mp3",
-  "/audio/Christmas in Nijmegen.mp3"
+  "/audio/Kerst aan de Waal.mp3"
 ];
 
 export default function Home() {
