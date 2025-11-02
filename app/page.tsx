@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Confetti from 'react-confetti';
+import LightEffect from './LightEffect'
 import { Fireworks } from '@fireworks-js/react'
 import type { FireworksHandlers } from '@fireworks-js/react'
 
@@ -280,18 +281,7 @@ export default function Home() {
     }}>
       {chapter >= 4 && <div style={{width: '100%', height: '100%'}}>Gefeliciteerd!</div>}
       {chapterCompleted && <Confetti />}
-      {chapter >= 2 && <Fireworks
-        ref={ref}
-        options={{ opacity: 0.5 }}
-        style={{
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          position: 'fixed',
-        }}
-      />}
+      {chapter >= 2 && <LightEffect />}
       {/* Linkerkant: vaste chapter info */}
       <aside
         className="chapter-background"
