@@ -96,7 +96,7 @@ export default function Home() {
     const savedLogs = localStorage.getItem('chapterLogs');
     const savedWelkom = localStorage.getItem('welkomOpen');
     if (savedChapter) {
-      let chapter = 4
+      let chapter = JSON.parse(savedChapter)
       setChapter(chapter);
       if (chapter > 2) {
         const handleUserInteraction = () => {
