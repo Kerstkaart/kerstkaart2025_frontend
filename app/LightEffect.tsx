@@ -33,13 +33,13 @@ const LightEffect = () => {
     name: "Twinkle",
     particles: {
       number: {
-        value: 80,
+        value: 200,
         density: {
           enable: true,
         },
       },
       color: {
-        value: ["#ff0000", "#00ff00", "#ffff66", "#ffffff"] // rood, groen, goud, wit
+        value: ["#ff0000", "#00ff00", "#ffff66"] // rood, groen, goud, wit
       },
       shape: {
         type: "circle",
@@ -58,7 +58,7 @@ const LightEffect = () => {
       size: {
         value: {
           min: 0.1,
-          max: 5,
+          max: 3,
         },
         animation: {
           enable: true,
@@ -68,13 +68,13 @@ const LightEffect = () => {
       },
       move: {
         enable: true,
-        speed: 2,
+        speed: 0.5,
       },
       twinkle: {
         particles: {
           enable: true,
-          color: "#ffffff",
-          frequency: 0.05,
+          color: ["#fff"],
+          frequency: 0.2,
           opacity: 1,
         }
       },
