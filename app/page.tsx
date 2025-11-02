@@ -19,6 +19,8 @@ const welcomeLines = [
   '👉 "Ik loop naar het dorpsplein"',
   '👉 "Ik praat met Robert over de lichtjes"',
   "",
+  "ps. AI is ondertussen ook al menselijk geworden en maakt af en toe fouten. Een extra knop is onderaan toegevoegd waar je op kunt drukken als het erop lijkt dat er iets fout gaat en je vast komt te zitten.",
+  "",
   "Veel plezier — en vergeet niet: in Tellytown begint kerst met jou!"
 ];
 
