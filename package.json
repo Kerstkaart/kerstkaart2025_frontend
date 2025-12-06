@@ -12,9 +12,9 @@
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
     "next": "15.5.3",
-    "react": "19.1.0",
+    "react": "19.1.2",
     "react-confetti": "^6.4.0",
-    "react-dom": "19.1.0",
+    "react-dom": "19.1.2",
     "react-particles": "^2.12.2",
     "tsparticles": "^3.9.1"
   },
