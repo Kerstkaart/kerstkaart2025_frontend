@@ -28,7 +28,7 @@ const LightEffect = () => {
     console.log(container);
   };
 
-  const xmasTwinkle: ISourceOptions = {
+  const xmasTwinkle = useMemo<ISourceOptions>(() => ({
     key: "twinkle",
     name: "Twinkle",
     particles: {
@@ -79,7 +79,7 @@ const LightEffect = () => {
         }
       },
     },
-  }
+  }), [])
 
   if (init) {
     return (
