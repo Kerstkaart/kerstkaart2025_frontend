@@ -87,7 +87,7 @@ export default function Home() {
   const [chapterLogs, setChapterLogs] = useState<Record<number, string[]>>({});
   const [chapter, setChapter] = useState<number>(1);
   const [chapterCompleted, setChapterCompleted] = useState(false);
-  const [welkomOpen, setWelkomOpen] = useState(false);
+  const [welkomOpen, setWelkomOpen] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playlistRef = useRef<string[]>([]);
   const trackIndexRef = useRef<number>(0);
